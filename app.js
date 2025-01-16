@@ -211,8 +211,8 @@ export class app {
                 break;
             case "checked":
                 ary = ary.sort((a, b) => {
-                    let a2 = this.#model.list.get(a.id).checked ?? false;
-                    let b2 = this.#model.list.get(b.id).checked ?? false;
+                    let a2 = this.#model.list.get(a.id).checked ? 1 : 0;
+                    let b2 = this.#model.list.get(b.id).checked ? 1 : 0;
 
                     return a2 - b2;
                 });
@@ -226,6 +226,7 @@ export class app {
 
         return ary.map(mapfunc);
     }
+
 
     async Render() {
         this.#appbody.innerHTML = "";
@@ -250,16 +251,16 @@ export class app {
                         Elm("tr", {},
                             Elm("td", {},
                                 "Aktivitet",
-                                Elm("button", { onclick: e => this.#sortBy("activity", "asc") }, "^"),
-                                Elm("button", { onclick: e => this.#sortBy("activity", "desc") }, "v")
+                                Elm("button", { onclick: e => this.#sortBy("activity", "asc") }, "\u2BC5"),
+                                Elm("button", { onclick: e => this.#sortBy("activity", "desc") }, "\u2BC6")
                             ),
                             Elm("td", {}, "Kategori",
-                                Elm("button", { onclick: e => this.#sortBy("activity", "asc") }, "^"),
-                                Elm("button", { onclick: e => this.#sortBy("activity", "desc") }, "v")
+                                Elm("button", { onclick: e => this.#sortBy("category", "asc") }, "\u2BC5"),
+                                Elm("button", { onclick: e => this.#sortBy("category", "desc") }, "\u2BC6")
                             ),
-                            Elm("td", {}, "Alternativ",
-                                Elm("button", { onclick: e => this.#sortBy("activity", "asc") }, "^"),
-                                Elm("button", { onclick: e => this.#sortBy("activity", "desc") }, "v")
+                            Elm("td", {}, "Avklarat",
+                                Elm("button", { onclick: e => this.#sortBy("checked", "asc") }, "\u2BC5"),
+                                Elm("button", { onclick: e => this.#sortBy("checked", "desc") }, "\u2BC6")
                             )
                         )
                     ),
@@ -291,4 +292,5 @@ export class app {
             )
         );
     }
+
 }

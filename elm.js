@@ -1,4 +1,3 @@
-
 /**
  * Basically this is a tiny little snippet i wrote inspired by the way JSX is handled
  * @param {string} tag html tag name
@@ -18,7 +17,7 @@ export function Elm(tag, attributes, ...children) {
         }
     }
     children?.forEach(n => {
-        if (typeof (n) === "string") {
+        if (typeof n === "string") {
             n = document.createTextNode(n);
         }
 

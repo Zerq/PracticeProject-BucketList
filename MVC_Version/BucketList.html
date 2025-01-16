@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucket List</title>
+    <style>
+        thead button {
+            padding: 0;
+            height: 1rem;
+            align-self: center;
+            line-height: 0;
+        }
+        thead button:first-child {
+            margin-left: 1rem;
+         
+        }
+
+        thead button:last-child {
+     
+            margin-right: 1rem;
+        }
+
+        button.active {
+            background-color: gray;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Min Bucket List</h1>
+    </header>
+    <main>
+
+    </main>
+    <template id="mainFormTemplate">
+        <form id="bucketForm"><input type="text" id="activityName" placeholder="Vad vill du göra?" required><select
+                id="activityCategory">
+                <option value="Resor">Resor</option>
+                <option value="Äventyr">Äventyr</option>
+                <option value="Lärande" selected="">Lärande</option>
+                <option value="Hobby">Hobby</option>
+            </select><button type="submit">lägg till</button></form>
+        <section id="bucketLists">
+            <table>
+                <thead>
+                    <tr>
+                        <td id="categorySortingButtons">Kategori<button>⯅</button><button>⯆</button></td>
+                        <td id="activitySortingButtons">Aktivitet<button>⯅</button><button>⯆</button></td>
+                        <td id="completedSortingButtons">Avklarat<button>⯅</button><button>⯆</button></td>
+                    </tr>
+                </thead>
+            </table>
+        </section>
+    </template>
+    <script type="module">
+        import { BucketListController } from "./BucketListController.js";
+        import { BucketLisView } from "./BucketLisView.js";
+        import { BucketListModel } from "./BucketListModel.js";
+        let controller = new BucketListController(new BucketListModel(), BucketLisView);
+    </script>
+</body>
+
+</html>
