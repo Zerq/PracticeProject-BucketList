@@ -44,6 +44,9 @@ export class app {
      */
     #sequenceNr;
 
+
+
+
     /**
      * @param {HTMLElement} appBody 
      */
@@ -186,7 +189,7 @@ export class app {
      * @param {"asc"|"desc"} direction 
      */
     #sortBy(sorting, direction) {
-        this.#executeCommand(new SortBucketList(sorting,direction));
+        this.#executeCommand(new SortBucketList(sorting, direction));
     }
 
     /**
@@ -219,7 +222,7 @@ export class app {
                 break;
         }
 
-        if (this.#model.sortingDirection === "asc"){
+        if (this.#model.sortingDirection === "asc") {
             ary = ary.reverse();
         }
 
@@ -228,6 +231,8 @@ export class app {
     }
 
 
+
+    #ctrlZTimeout;
     async Render() {
         this.#appbody.innerHTML = "";
         this.#appbody.appendChild(Elm("form", { id: "bucketForm", onsubmit: (e) => this.#submit(e) },
@@ -291,6 +296,24 @@ export class app {
                 )
             )
         );
-    }
+
+        document.body.addEventListener("keydown", e => {
+            if (e.key === "z" && e.ctrlKey === true) {
+
+
+                if (this.#ctrlZTimeout === undefined)
+                    this.#ctrlZTimeout = setTimeout(async () => {
+                        this.#events.pop();
+                        let json = JSON.stringify(this.#events);
+                        window.localStorage.setItem("bucketlist", json);
+
+                        this.#initializeModel()
+                        await this.#replay();
+                        await this.Render();
+                        this.#ctrlZTimeout = undefined;
+                    }, 300);
+            }   
+        });
+}
 
 }
