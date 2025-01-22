@@ -29,4 +29,8 @@ export class BucketListModel {
      */
     SortingDirection;
 
+    /**
+     * @type string|undefined|null;
+     */
+    editing;
 }

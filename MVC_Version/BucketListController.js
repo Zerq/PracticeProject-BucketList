@@ -13,7 +13,6 @@ export class BucketListController {
 
         let saved = JSON.parse(localStorage.getItem("mvcBucketList"));
         if (saved){
-         
             saved.List = new Map();
 
             saved.ary.forEach(n=> {
@@ -25,10 +24,8 @@ export class BucketListController {
 
             this.#model = saved;
         }
-
         this.#view(this.#model, this);
     }
-
 
     #update(){ 
         let data = { 
@@ -42,6 +39,19 @@ export class BucketListController {
         this.#view(this.#model, this);
     }
 
+ 
+    dialogSubmit(e){
+        e.preventDefault();
+        const text = e.target[0].value;
+        const category = e.target[1].value;
+        const id = this.#model.editing;
+        const item = this.#model.List.get(this.#model.editing);
+        this.#model.editing = undefined; 
+
+        item.activityDescription = text;
+        item.category = category;
+        this.#update();
+    }
 
     sortDescendingActivity() {
         this.#model.Sorting = "activity";
@@ -82,6 +92,12 @@ export class BucketListController {
         let category = e.target[1].value;
         let id = crypto.randomUUID();
         this.#model.List.set(id, { id: id, activityDescription: text,category: category, checked: false  });
+        this.#update();
+    }
+    
+ 
+    edit(id){
+        this.#model.editing = id;
         this.#update();
     }
 

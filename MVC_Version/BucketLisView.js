@@ -39,8 +39,32 @@ function sort(model){
     }   
     throw new Error("no conditions met for sorting!");
 }
+/**
+ * @param {import("./BucketListModel").BucketListModel} model
+ */
+function renderEditModal(model,controller){
+    const main = document.querySelector("main");
+    const dialog = document.createElement("dialog");
+    const mainFormTemplate = document.getElementById("mainFormTemplate");
+    dialog.appendChild(mainFormTemplate.content.children[0].cloneNode(true));
+    dialog.querySelector("#bucketForm").id = "bucketDialogForm";
+    dialog.querySelector("#activityCategory").id = "dialogActivityCategory"
+    dialog.querySelector("button").innerText = "Spara";
+
+    let item = model.List.get(model.editing);
+    dialog.querySelector("input").value = item.activityDescription;
+    
+    dialog.querySelector(`select option[value=${item.category}]`).checked =true;
+    
+    dialog.querySelector("#bucketDialogForm").addEventListener("submit", e=> { 
+        controller.dialogSubmit(e, model);
+    });
 
 
+    main.appendChild(dialog);
+    dialog.showModal();
+
+}
 
 /**
  * @param {import("./BucketListModel").BucketListModel} model
@@ -74,10 +98,6 @@ export function BucketLisView(model, controller) {
 
     let list = sort(model);
 
-
- 
-
-
     list.forEach(n => {
         const tr = document.createElement("tr");
 
@@ -90,6 +110,22 @@ export function BucketLisView(model, controller) {
         tr.appendChild(tdActivity);
 
         const tdOption = document.createElement("td");
+
+
+
+        const editButton = document.createElement("button");
+        editButton.innerText = "Editera";
+        editButton.id = n.id;
+        editButton.addEventListener("click", (e) =>{ 
+            controller.edit(n.id);
+        });
+        tdOption.appendChild(editButton);
+
+
+        if (model.editing){
+            renderEditModal(model,controller);
+        } 
+
 
         const button = document.createElement("button");
         button.innerText = "ta bort";
